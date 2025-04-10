@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AlumnoService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">minidevops</a> &gt; <a href="index.source.html" class="el_package">mx.uam.tsis.ejemplobackend.negocio</a> &gt; <span class="el_source">AlumnoService.java</span></div><h1>AlumnoService.java</h1><pre class="source lang-java linenums">package mx.uam.tsis.ejemplobackend.negocio;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import mx.uam.tsis.ejemplobackend.datos.AlumnoRepository;
+import mx.uam.tsis.ejemplobackend.negocio.modelo.Alumno;
+
+/**
+ * 
+ * Clase que contiene la lógica de negocio del manejo de alumnos
+ * 
+ * @author humbertocervantes
+ *
+ */
+@Service
+<span class="fc" id="L22">public class AlumnoService {</span>
+
+<span class="fc" id="L24">	private static final Logger log = LoggerFactory.getLogger(AlumnoService.class);</span>
+	
+	@Autowired
+	private AlumnoRepository alumnoRepository;
+	
+	/**
+	 * 
+	 * Método que permite crear nuevos alumnos
+	 * 
+	 * @param nuevoAlumno el alumno que se desea crear en el sistema
+	 * @return el alumno que se acaba de crear si la creacion es exitosa, null de lo contrario
+	 */
+	public Alumno create(Alumno nuevoAlumno) {
+		
+		// Regla de negocio: No se puede crear más de un alumno con la misma matricula
+<span class="fc" id="L39">		Optional &lt;Alumno&gt; alumnoOpt = alumnoRepository.findById(nuevoAlumno.getMatricula());</span>
+		
+		
+<span class="fc bfc" id="L42" title="All 2 branches covered.">		if(!alumnoOpt.isPresent()) {</span>
+
+<span class="fc" id="L44">			return  alumnoRepository.save(nuevoAlumno);</span>
+			
+		} else {
+			
+<span class="fc" id="L48">			return null;</span>
+			
+		}
+		
+	}
+	
+
+	public Iterable &lt;Alumno&gt; retrieveAll () {
+		
+		
+		// Lógica de negocio
+		
+<span class="nc" id="L60">		return alumnoRepository.findAll();</span>
+	}
+	
+	public Alumno findByMatricula(Integer matricula) {
+
+		// Lógica de negocio
+		
+<span class="nc" id="L67">		Optional &lt;Alumno&gt; alumnoOpt = alumnoRepository.findById(matricula);</span>
+		
+<span class="nc" id="L69">		return alumnoOpt.get();</span>
+	}
+	
+	/**
+	 * 
+	 * Actualiza al alumno
+	 * 
+	 * @param actualizado
+	 * @return true si la actualización fue exitosa
+	 */
+	public boolean update(Alumno actualizado) {
+		// Primero veo que si esté en la BD
+<span class="fc" id="L81">		Optional &lt;Alumno&gt; alumnoOpt = alumnoRepository.findById(actualizado.getMatricula());</span>
+		
+		
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">		if(alumnoOpt.isPresent()) {</span>
+<span class="fc" id="L85">			Alumno alumno = alumnoOpt.get(); // Este es el que está en la bd</span>
+			
+<span class="fc" id="L87">			alumno.setCarrera(actualizado.getCarrera());</span>
+<span class="fc" id="L88">			alumno.setNombre(actualizado.getNombre());</span>
+			
+<span class="fc" id="L90">			log.info(&quot;Persistiendo los cambios &quot;+alumno.getCarrera());</span>
+			
+<span class="fc" id="L92">			alumnoRepository.save(alumno); // Persisto los cambios</span>
+			
+<span class="fc" id="L94">			return true;</span>
+		} else {
+<span class="nc" id="L96">			return false;</span>
+		}
+
+
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

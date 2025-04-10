@@ -1,0 +1,5 @@
+mx/uam/tsis/ejemplobackend/TestConfig.class
+mx/uam/tsis/ejemplobackend/servicios/AlumnoControllerIntegrationTest.class
+mx/uam/tsis/ejemplobackend/negocio/GrupoServiceTest.class
+mx/uam/tsis/ejemplobackend/negocio/AlumnoServiceTest.class
+mx/uam/tsis/ejemplobackend/EjemplobackendApplicationTests.class
