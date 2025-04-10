@@ -32,6 +32,7 @@
 			**/model/**,
 			**/exception/**
 		</sonar.coverage.exclusions>
+		<jib-maven-plugin.version>3.4.0</jib-maven-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -85,6 +86,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<!-- Actuator -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 						
 		<!-- Prueba unitaria -->
@@ -160,6 +167,26 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<!-- Jib Plugin -->
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>${jib-maven-plugin.version}</version>
+				<configuration>
+					<from>
+						<image>eclipse-temurin:17-jre-jammy</image>
+					</from>
+					<to>
+						<image>${project.artifactId}:${project.version}</image>
+					</to>
+					<container>
+						<ports>
+							<port>8080</port>
+						</ports>
+						<creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+					</container>
+				</configuration>
 			</plugin>
 			<!-- SonarQube Plugin -->
 			<plugin>
