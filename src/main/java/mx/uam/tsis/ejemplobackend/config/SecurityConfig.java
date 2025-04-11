@@ -19,16 +19,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests((authorize) -> authorize
-                .requestMatchers("/", "/index", "/css/**", "/js/**").permitAll()
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/actuator/health", "/actuator/prometheus").permitAll()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                .requestMatchers("/v1/**").authenticated()
                 .anyRequest().authenticated()
             )
             .httpBasic()
             .and()
-            .csrf(csrf -> csrf.disable())
-            .headers(headers -> headers.frameOptions().disable());
+            .csrf().disable();
         
         return http.build();
     }
@@ -36,11 +34,11 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails user = User.builder()
-            .username("tsis")
-            .password(passwordEncoder().encode("1234"))
-            .roles("USER")
+            .username("admin")
+            .password(passwordEncoder().encode("admin"))
+            .roles("ADMIN")
             .build();
-
+        
         return new InMemoryUserDetailsManager(user);
     }
 

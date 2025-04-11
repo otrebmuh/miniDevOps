@@ -81,6 +81,21 @@ docker-compose up -d
 - Grafana: http://localhost:3000 (admin/admin)
 - Prometheus: http://localhost:9090
 
+3. View the Spring Boot Metrics Dashboard:
+- Log in to Grafana (admin/admin)
+- Go to Dashboards → Browse
+- Select "Spring Boot Metrics"
+- The dashboard shows:
+  - CPU Usage (%)
+  - Memory Usage (MB)
+  - HTTP Requests (5m rate)
+  - Service Status
+
+4. Verify metrics collection:
+- Check Prometheus targets: http://localhost:9090/targets
+- Verify spring-actuator target is UP
+- Check raw metrics: http://localhost:8080/actuator/prometheus
+
 ## API Documentation
 
 Access the OpenAPI documentation at:
@@ -119,14 +134,40 @@ The GitHub Actions workflow (`/.github/workflows/ci-cd.yml`) includes:
 The Grafana dashboard includes:
 
 1. System Metrics:
-   - CPU Usage
-   - Memory Usage
+   - CPU Usage (%)
+   - Memory Usage (MB)
    - HTTP Request Counts
+   - Service Status
 
 2. Application Metrics:
    - JVM Statistics
    - Database Connection Status
    - API Health Status
+
+### Troubleshooting Dashboard Issues
+
+If you don't see data in the dashboard:
+
+1. Verify Prometheus is scraping metrics:
+   ```bash
+   curl http://localhost:9090/api/v1/query?query=up
+   ```
+
+2. Check Spring Boot metrics:
+   ```bash
+   curl http://localhost:8080/actuator/prometheus
+   ```
+
+3. Verify Grafana datasource:
+   - Go to Configuration → Data Sources
+   - Check Prometheus connection
+   - Test the connection
+
+4. Check container logs:
+   ```bash
+   docker logs prometheus
+   docker logs grafana
+   ```
 
 ## Security
 
