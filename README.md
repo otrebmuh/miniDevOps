@@ -1,4 +1,4 @@
-# Spring Boot Backend with DevOps Features
+#Spring Boot Backend with DevOps Features
 
 This project is a Spring Boot backend application with comprehensive DevOps features including CI/CD, monitoring, and observability.
 
@@ -202,3 +202,4 @@ Default credentials:
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+Contact: Humberto Cervantes
